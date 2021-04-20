@@ -1,6 +1,10 @@
 const express = require('express');
 const errorHandler = require('errorhandler');
 const path = require('path');
+const dotenv = require('dotenv');
+
+//ENV CONFIG
+dotenv.config();
 
 const { PUBLIC_FILES_PATH, PUBLIC_FILES_DIR } = process.env;
 
@@ -17,3 +21,8 @@ app.use(
 
 // SERVER
 app.listen(4000, () => console.log('Server running on http://localhost:4000/'));
+
+//
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
