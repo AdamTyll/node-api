@@ -48,7 +48,7 @@ router.get('/logout', async (req, res) => {
 // GET USERS LIST
 router.get('/list', auth, async (req, res) => {
     try {
-        const users = await usersModel.find();
+        const users = await userModel.find();
         if (!users) {
             return res.status(401).send({ error: 'Users not found' });
         }
