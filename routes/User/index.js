@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 const UserModel = require('../../models/User/user-model');
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -12,6 +13,7 @@ const tokenSettings = {
     sameSite: isProduction ? 'None' : 'Lax', // Value of the “SameSite” Set-Cookie attribute.
 };
 
+// LOGIN
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -33,12 +35,26 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// LOGOUT
 router.get('/logout', async (req, res) => {
     try {
         res.setHeader('Access-Control-Allow-Credentials', true);
         res.status(200).cookie('token', '').send({ message: 'SUCCESS' });
     } catch (error) {
         res.status(400).json({ error: error });
+    }
+});
+
+// GET USERS LIST
+router.get('/', auth, async (req, res) => {
+    try {
+        const users = await usersModel.find();
+        if (!users) {
+            return res.status(401).send({ error: 'Users not found' });
+        }
+        res.status(201).send({ users });
+    } catch (error) {
+        res.status(400).send(error);
     }
 });
 
