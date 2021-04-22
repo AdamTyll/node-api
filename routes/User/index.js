@@ -46,7 +46,7 @@ router.get('/logout', async (req, res) => {
 });
 
 // GET USERS LIST
-router.get('/', auth, async (req, res) => {
+router.get('/list', auth, async (req, res) => {
     try {
         const users = await usersModel.find();
         if (!users) {
