@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const errorHandler = require('errorhandler');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const dotenv = require('dotenv');
 var cors = require('cors');
@@ -51,6 +52,7 @@ const corsOptions = {
     credentials: true,
     exposedHeaders: ['set-cookie'],
 };
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(
     PUBLIC_FILES_PATH,
