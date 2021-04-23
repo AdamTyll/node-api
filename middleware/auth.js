@@ -3,15 +3,13 @@ const UsersModel = require('../models/User/user-model');
 
 const auth = async (req, res, next) => {
     try {
-        console.log({ req });
         const token = req.cookies.token;
-        console.log({ token });
         const data = jwt.verify(token, process.env.JWT_SECRET);
         const user = await UsersModel.findOne({ _id: data._id });
         req.user = user;
         next();
     } catch (error) {
-        console.log({ auth_error: error });
+        console.error({ error });
         res.status(401).send({
             middlewareAuthError: 'Not authorized to access this resource',
         });
