@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const UserModel = require('../../models/User/user-model');
@@ -60,17 +61,18 @@ router.get('/list', auth, async (req, res) => {
 });
 
 // USER AUTHENTICATION ROUTE
-router.get('/auth', auth, async (req, res) => {
-  console.log({ req });
-  const user = req.user;
-  if (!user) {
-    return res.status(401).send({
-      error: 'Login failed! Check authentication credentials',
+router.get('/auth', async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await UsersModel.findOne({ _id: data._id });
+    res.status(200).send({ user });
+  } catch (error) {
+    console.error({ error });
+    res.status(401).send({
+      middlewareAuthError: 'Not authorized to access this resource',
     });
   }
-  console.log({ user });
-
-  res.status(200).send({ user });
 });
 
 module.exports = router;
