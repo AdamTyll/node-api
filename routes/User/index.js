@@ -58,4 +58,21 @@ router.get('/list', auth, async (req, res) => {
     }
 });
 
+// USER AUTHENTICATION ROUTE
+router.get('/auth', auth, async (req, res) => {
+    try {
+        const { email, password } = req.user;
+        const user = await UserModel.findByCredentials(email, password);
+        if (!user) {
+            return res.status(401).send({
+                error: 'Login failed! Check authentication credentials',
+            });
+        }
+
+        res.status(200).send({ user, headers: res.headers });
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
 module.exports = router;
