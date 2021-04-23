@@ -60,7 +60,16 @@ router.get('/list', auth, async (req, res) => {
 });
 
 // USER AUTHENTICATION ROUTE
-router.get('/auth', async (req, res) => {
+router.get('/auth', auth, async (req, res) => {
+  const user = req.user;
+  console.log({ req });
+  if (!user) {
+    return res.status(401).send({
+      error: 'Login failed! Check authentication credentials',
+    });
+  }
+  console.log({ user });
+
   res.status(200).send({ user });
 });
 
