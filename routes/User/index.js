@@ -70,6 +70,7 @@ router.get('/auth', auth, async (req, res) => {
 
         res.status(200).send({ user, headers: res.headers });
     } catch (error) {
+        console.error(error);
         res.status(400).send(error);
     }
 });
