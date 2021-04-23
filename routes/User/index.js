@@ -61,6 +61,7 @@ router.get('/list', auth, async (req, res) => {
 // USER AUTHENTICATION ROUTE
 router.get('/auth', auth, async (req, res) => {
     try {
+        console.log({ user: req.user });
         const { email, password } = req.user;
         const user = await UserModel.findByCredentials(email, password);
         if (!user) {
