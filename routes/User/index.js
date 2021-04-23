@@ -65,7 +65,7 @@ router.get('/auth', async (req, res) => {
   try {
     const token = req.cookies.token;
     const data = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await UsersModel.findOne({ _id: data._id });
+    const user = await UserModel.findOne({ _id: data._id });
     res.status(200).send({ user });
   } catch (error) {
     console.error({ error });
