@@ -70,7 +70,7 @@ router.get('/auth', async (req, res) => {
   } catch (error) {
     console.error({ error });
     res.status(401).send({
-      middlewareAuthError: 'Not authorized to access this resource',
+      error: 'Not authorized to access this resource',
     });
   }
 });
