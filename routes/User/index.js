@@ -54,7 +54,7 @@ router.get('/list', auth, async (req, res) => {
     if (!users) {
       return res.status(401).send({ error: 'Users not found' });
     }
-    res.status(201).send({ users });
+    res.status(200).send({ users });
   } catch (error) {
     res.status(400).send(error);
   }
